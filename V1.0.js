@@ -107,6 +107,8 @@ function search() {
     if(coincidences.length!=0) {
       console.log("mas de uno");
       const PB = await profile.profile(coincidences[0]);
+      whitelist.push(coincidences[0]);
+      console.log(`white ${whitelist}`)
       console.log("terminado proceso B");
       const PC = await load.load();
       console.log("terminado proceso C");

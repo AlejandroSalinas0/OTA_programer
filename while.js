@@ -5,6 +5,8 @@ var reescan = require('./reescan');
 var load = require('./post2');
 var express = require("express"), app = express();
 var activacion=0;
+var temporalblacklist=[];
+var whitelist=[];
 bodyParser = require("body-parser");
 var Files=null;
 //methodOverride = require("method-override");
@@ -37,7 +39,7 @@ route.get('/off', (req, res) => {
 route.post('/examinar', (req, res) => {
   res.status(200).send('Archivo seleccionado correctamente el back');
   activacion=0;
-  console.log("Aechivo seleccionado");
+  console.log("Archivo seleccionado");
   Files=req.body.name
   console.log(req.body.name);
 });
@@ -53,8 +55,7 @@ route.post('/archivo', (req, res) => {
 
 
 function search() {
-  temporalblacklist=23;
-    return [temporalblacklist, new Promise(resolve => {
+    return new Promise(resolve => {
         cmd.run(`netsh wlan show networks`, function(err, data, stderr){
             //console.log('Windows dice: ', data)
             if(data=="  There is no wireless interface on the system.")
@@ -119,7 +120,7 @@ function search() {
         //return array;
         );
       //no
-    })];
+    });
   }
   
   async function main() {
@@ -128,13 +129,17 @@ function search() {
     const PE = await reescan.reescan();
     console.log('Searching')
     const PA = await search()[0];
-    console.log(PA)
+    //console.log(PA)
     console.log("Process A finished");
     //const PB = await profile();
+    var coincidences = coincidences.filter(x => !whitelist.includes(x));
     if(coincidences.length!=0) {
       const PB = await profile.profile(coincidences[0]);
+      whitelist.push(coincidences[0]);
+      console.log(`whitelist process ${whitelist}`)
       console.log("Process B finished");
-      const PC = await load.load(Files);
+      const PC = await load.load(Files)[0];
+      console.log(PC)
       console.log("Process C finished");
       
       const PD = await reescan.reescan();
