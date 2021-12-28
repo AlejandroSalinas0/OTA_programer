@@ -35,14 +35,15 @@ route.get('/off', (req, res) => {
 });
 
 route.post('/examinar', (req, res) => {
-  res.status(200).send('El actualizador OTA se ha desactivado exitosamente');
+  res.status(200).send('Archivo seleccionado correctamente el back');
   activacion=0;
-  console.log("Recibido nuevo archivo de actualizacion");
+  console.log("Aechivo seleccionado");
+  Files=req.body.name
   console.log(req.body.name);
 });
 
 route.post('/archivo', (req, res) => {
-  res.status(200).send('Send received');
+  res.status(200).send('Envio exitoso');
   activacion=0;
   console.log("Update file received");
   console.log(req.body.sendName);
@@ -52,8 +53,8 @@ route.post('/archivo', (req, res) => {
 
 
 function search() {
-  result=23;
-    return [result, new Promise(resolve => {
+  temporalblacklist=23;
+    return [temporalblacklist, new Promise(resolve => {
         cmd.run(`netsh wlan show networks`, function(err, data, stderr){
             //console.log('Windows dice: ', data)
             if(data=="  There is no wireless interface on the system.")
