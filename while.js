@@ -55,7 +55,7 @@ route.post('/archivo', (req, res) => {
 
 
 function search() {
-    return new Promise(resolve => {
+    return new Promise(resolvesearch => {
         cmd.run(`netsh wlan show networks`, function(err, data, stderr){
             //console.log('Windows dice: ', data)
             if(data=="  There is no wireless interface on the system.")
@@ -63,7 +63,7 @@ function search() {
               console.log("Wireless interface not available")
               //coincidences=[];
               //cmd.run(`netsh interface set interface name="Wi-Fi" admin=enabled`)
-              resolve('Interface not available 🤡');
+              resolvesearch('Interface not available 🤡');
               
 
             }
@@ -105,7 +105,7 @@ function search() {
                   //console.log(`COINCIDENCES: ${coincidences}`)
                   if(counter==slice.length){
                       console.log("Network count:")
-                      resolve('Scan finished');
+                      resolvesearch('Scan finished');
                       console.log(coincidences.length);
                   }else{
                       //console.log("CO:"+counter+"SD:"+slice.length)
@@ -128,12 +128,13 @@ function search() {
     if(activacion==1){
     const PE = await reescan.reescan();
     console.log('Searching')
-    const PA = await search()[0];
+    const PA = await search();
     //console.log(PA)
     console.log("Process A finished");
     //const PB = await profile();
-    var coincidences = coincidences.filter(x => !whitelist.includes(x));
-    if(coincidences.length!=0) {
+    
+    if(coincidences.length!=0 && activacion==1) {
+      coincidences = coincidences.filter(x => !whitelist.includes(x));
       const PB = await profile.profile(coincidences[0]);
       whitelist.push(coincidences[0]);
       console.log(`whitelist process ${whitelist}`)
@@ -145,7 +146,7 @@ function search() {
       const PD = await reescan.reescan();
       console.log("Re-scaning")
     //}else{ 
-    }else if(coincidences.length==0) {
+    }else if(coincidences.length==0 && activacion==1) {
       console.log("No network found")
       const PD = await reescan.reescan();
     }

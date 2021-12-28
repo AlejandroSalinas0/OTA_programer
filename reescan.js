@@ -23,9 +23,9 @@ exports.reescan = async function(){
             
                 console.log(data);    
         });
-            return new Promise(resolve => {
+            return new Promise(resolved => {
                 setTimeout(() => {    
-                    resolve(1);
+                    resolved(1);
                 }, 1000);
             });
         }    
@@ -40,11 +40,11 @@ exports.reescan = async function(){
             
                 console.log(data);    
             });
-            return new Promise(resolve => {
+            return new Promise(resolvee => {
                 setTimeout(() => {
                     
                     console.log("resolving reescan")
-                    resolve(1);
+                    resolvee(1);
                     
                     
                 }, 10000);
