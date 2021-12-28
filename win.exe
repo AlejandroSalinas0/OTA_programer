@@ -1,0 +1,3 @@
+@Echo off
+TIMEOUT /T 10
+Echo Now we are ready
