@@ -33,6 +33,7 @@ route.get('/on', (req, res) => {
 route.get('/off', (req, res) => {
   res.status(200).send('El actualizador OTA se ha desactivado exitosamente');
   activacion=0;
+  whitelist=[];
   //console.log(req.body);
 });
 
@@ -95,7 +96,7 @@ function search() {
                   if(SSID.length<1){
                       console.log("Hidden SSID")
                   }else{
-                      if(n = SSID.includes("LASEC VEHICLE SF:")){
+                      if(n = SSID.includes("LASEC SF:")){
                       console.log("Identified target: "+SSID)
                       coincidences.push(SSID);
                       }else{
@@ -126,6 +127,7 @@ function search() {
   async function main() {
     while(true) {
     if(activacion==1){
+    console.log(`Whitelist process: ${whitelist}`)
     const PE = await reescan.reescan();
     console.log('Searching')
     const PA = await search();
@@ -134,17 +136,22 @@ function search() {
     //const PB = await profile();
     
     if(coincidences.length!=0 && activacion==1) {
-      coincidences = coincidences.filter(x => !whitelist.includes(x));
-      const PB = await profile.profile(coincidences[0]);
-      whitelist.push(coincidences[0]);
-      console.log(`whitelist process ${whitelist}`)
-      console.log("Process B finished");
-      const PC = await load.load(Files)[0];
-      console.log(PC)
-      console.log("Process C finished");
-      
-      const PD = await reescan.reescan();
-      console.log("Re-scaning")
+      var restantes = coincidences.filter(x => !whitelist.includes(x));
+      if (restantes.length!=0){
+        const PB = await profile.profile(restantes[0]);
+        whitelist.push(coincidences[0]);
+        
+        console.log("Process B finished");
+        const PC = await load.load(Files);
+        console.log("Process C finished");
+        
+        //const PD = await reescan.reescan();
+        //console.log("Re-scaning")
+        
+      }else{
+        console.log("Ninguna restante")
+      }
+     
     //}else{ 
     }else if(coincidences.length==0 && activacion==1) {
       console.log("No network found")
@@ -163,9 +170,9 @@ function search() {
  }
 //main();
  function espera() {
-  return new Promise(resolve => {
+  return new Promise(resolveespera => {
     setTimeout(() => {    
-      resolve(1);
+      resolveespera(1);
   }, 10000);
   });
 }
