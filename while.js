@@ -79,7 +79,7 @@ function search() {
               slice.forEach(element => {
                   counter += 1; 
                   //console.log("Current: "+element);
-                  let chunks=element.split('Network');    //added
+                  let chunks=element.split('Tipo');    //added
                   SSIDdirty=chunks[0];
                   //console.log("starting")
                   if(counter<10){
