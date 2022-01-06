@@ -19,11 +19,11 @@
     //   const PD = await reescan.reescan();
     // }
 
-const { sustractor } = require("./sustract");
+// const { sustractor } = require("./sustract");
 
-//}
-var result=sustractor();
-console.log(result);
+// //}
+// var result=sustractor();
+// console.log(result);
 
 
 // const fs = require('fs');
@@ -139,3 +139,50 @@ console.log(result);
 //             }
 //     //});
 // //}
+// var cmd=require('node-cmd');
+// cmd.run(`netsh wlan show networks`, function(err, data, stderr){
+//     //console.log('Windows dice: ', data)
+//     if(data.includes('There is no wireless interface on the system'))
+//     {
+//       console.log("Wireless interface not available")
+//       console.log(`data 1 ${data}`);
+//       console.log(`stderr ${err}`);
+//       //console.log(err)
+
+
+//     }else{  
+//         console.log(`data 2 ${data}end`);
+//         console.log(`stderr ${err}`);
+//       //console.log(err)
+//       //coincidences=[];
+//       //cmd.run(`netsh interface set interface name="Wi-Fi" admin=enabled`)
+//       //('Interface not available 🤡');
+      
+
+//     }
+
+// });
+
+
+var cmd=require('node-cmd');
+
+//Windows multiline commands are not guaranteed to work try condensing to a single line.
+    
+    //const syncDir=cmd.runSync('netsh interface set interface Wi-Fi admin=enabled');
+    const syncDir=cmd.runSync('ping 10.86.10.1');
+
+    console.log(`
+    
+        Sync Err ${syncDir.err}
+        
+        Sync stderr:  ${syncDir.stderr}
+
+        Sync Data ${syncDir.data}
+    
+    `);
+
+    cmd.run(`netsh wlan show networks`,
+        function(err, data, stderr){
+            console.log("ACTIVADO" ,data)
+        }
+    );

@@ -2,7 +2,7 @@ const fs = require('fs');
 var cmd=require('node-cmd');
 const { connect } = require('http2');
 const path = require('path');
-const filePath =path.join(__dirname, './NewProfile2.xml')
+const filePath =path.join(__dirname, './NewProfile.xml')
 //var SSIDtarget="RED CONOCIDA";
 var KEYtarget="Lasec123.";
 var xml=""
@@ -15,19 +15,19 @@ var hexd="";
 exports.profile = async function(SSIDtarget){
     return new Promise(resolvemain => {
         async function msg(SSIDtarget, KEYtarget) {
-            //console.log("comenzando profile");
+            console.log("comenzando profile");
 
             //console.log(coincidences);
             z = await hexconverter(SSIDtarget);
-            //console.log("terminado hex");
+            console.log("terminado hex");
             a = await parser(SSIDtarget, KEYtarget, hexd);
-            //console.log("terminado parcer");
+            console.log("terminado parcer");
             b = await saver(xml, filePath);
-            //console.log("terminado saver");
+            console.log("terminado saver");
             c = await importer();
-            //console.log("terminado importer");
+            console.log("terminado importer");
             d = await connecter();
-            //console.log("terminado conecter");
+            console.log("terminado conecter");
             //console.log(`${ a } ${ b } ${ c }`);
             //resolve('🤡');
         }
@@ -57,7 +57,7 @@ exports.profile = async function(SSIDtarget){
 
         function parser(SSIDtarget, KEYtarget, hexd) {
          
-            //console.log(SSIDtarget + KEYtarget)
+            console.log(SSIDtarget + KEYtarget)
             xml=`<?xml version="1.0"?>
             <WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
                 <name>${SSIDtarget}</name>
@@ -97,20 +97,23 @@ exports.profile = async function(SSIDtarget){
 
         function saver(xml, filePath){
             fs.writeFileSync(filePath, xml)
+            console.log(`SAVER ${filePath}`);
         return new Promise(resolve => {
             setTimeout(() => {    
                 resolve(1);
-            }, 2000);
+            }, 1000);
         });
         }
     
-        function importer(xml, filePath){
+        function importer(){
+            //console.log(filePath);
             cmd.run(
                             //`netsh wlan connect ssid=Smart_Lamp_2v1 name=Smart_Lamp_2v1`, function(err, data, stderr){
-                            `netsh wlan add profile NewProfile2.xml`, function(err, data, stderr){
-                        // ``, function(err, data, stderr){
+                            //`netsh wlan add profile NewProfile.xml`, function(err, data, stderr){
+                                `netsh wlan add profile NewProfile.xml interface="Wi-Fi"`, function(err, data, stderr){                  
+                            // ``, function(err, data, stderr){
                         
-                            console.log(data);    
+                            console.log(`IMPORTER ${data}`);    
                     });
         return new Promise(resolve => {
             setTimeout(() => {
@@ -124,10 +127,10 @@ exports.profile = async function(SSIDtarget){
                 //`netsh wlan connect ssid=Smart_Lamp_2v1 name=Smart_Lamp_2v1`, function(err, data, stderr){
                 `netsh wlan connect name="${SSIDtarget}"`, function(err, data, stderr){
             // ``, function(err, data, stderr){            
-                console.log(data);    
+                console.log(`CONECTER ${data}`);    
             });
             //console.log("AAAAAAAAAAAAAAAAAAAA")
-        return new Promise(resolve => {
+        return new Promise (resolve => {
                 setTimeout(() => {
             
                 resolve(1);
@@ -135,7 +138,7 @@ exports.profile = async function(SSIDtarget){
             }, 2000);
         });
         }
-    });
+    })
 }
 
 

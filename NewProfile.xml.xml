@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
+	<name>Lasec</name>
+	<SSIDConfig>
+		<SSID>
+			<hex>4C61736563</hex>
+			<name>Lasec</name>
+		</SSID>
+	</SSIDConfig>
+	<connectionType>ESS</connectionType>
+	<connectionMode>manual</connectionMode>
+	<MSM>
+		<security>
+			<authEncryption>
+				<authentication>WPA2PSK</authentication>
+				<encryption>AES</encryption>
+				<useOneX>false</useOneX>
+			</authEncryption>
+			<sharedKey>
+				<keyType>passPhrase</keyType>
+				<protected>true</protected>
+				<keyMaterial>01000000D08C9DDF0115D1118C7A00C04FC297EB010000007CE4E01A251BB64D9B76CA5EC70866D600000000020000000000106600000001000020000000AC60BAC6E34AEDF04B431314D4B16F285CF541C52443567223D7A7BD8B1D81AF000000000E8000000002000020000000A1D25A2DF857A9F8E93CCF37B3BC246BC6F894C921CD5749F0163FF71BE3D1B710000000E35EC0311B36440CA8C5FC2FFC8DBA364000000023098740B2F31FDE1F3F90FDBBCB42C8524D5A6655AA207368BC0858D1A8E1CD06DA6449FC79592794B5A2784F73A01065F241451591A4A84A0D06B5AF3A642B</keyMaterial>
+			</sharedKey>
+		</security>
+	</MSM>
+	<MacRandomization xmlns="http://www.microsoft.com/networking/WLAN/profile/v3">
+		<enableRandomization>false</enableRandomization>
+		<randomizationSeed>1385304129</randomizationSeed>
+	</MacRandomization>
+</WLANProfile>

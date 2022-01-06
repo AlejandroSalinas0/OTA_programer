@@ -4,11 +4,12 @@ var profile =require('./profile');
 var reescan = require('./reescan');
 var load = require('./post2');
 var express = require("express"), app = express();
-var activacion=0;
+var activacion=1;
 var temporalblacklist=[];
 var whitelist=[];
 bodyParser = require("body-parser");
 var Files=null;
+var restantes=[];
 //methodOverride = require("method-override");
 //mongoose = require("mongoose");
 
@@ -59,12 +60,12 @@ function search() {
     return new Promise(resolvesearch => {
         cmd.run(`netsh wlan show networks`, function(err, data, stderr){
             //console.log('Windows dice: ', data)
-            if(data=="  There is no wireless interface on the system.")
+            if(data.includes("There is no wireless interface on the system"))
             {
-              console.log("Wireless interface not available")
+              console.log("ERROR: " + 404 +"\r\n"+"INFO:No se puedo encontrar redes porque la interfaz aun no se ha activado, necesita mas tiempo")
               //coincidences=[];
               //cmd.run(`netsh interface set interface name="Wi-Fi" admin=enabled`)
-              resolvesearch('Interface not available 🤡');
+              resolvesearch(404);
               
 
             }
@@ -106,7 +107,7 @@ function search() {
                   //console.log(`COINCIDENCES: ${coincidences}`)
                   if(counter==slice.length){
                       console.log("Network count:")
-                      resolvesearch('Scan finished');
+                      resolvesearch(100);
                       console.log(coincidences.length);
                   }else{
                       //console.log("CO:"+counter+"SD:"+slice.length)
@@ -128,19 +129,19 @@ function search() {
     while(true) {
     if(activacion==1){
     console.log(`Whitelist process: ${whitelist}`)
-    const PE = await reescan.reescan();
+    //const PE = await reescan.reescan();
     console.log('Searching')
     const PA = await search();
-    //console.log(PA)
+    console.log(`Searching code ${PA}`);
     console.log("Process A finished");
     //const PB = await profile();
     
     if(coincidences.length!=0 && activacion==1) {
-      var restantes = coincidences.filter(x => !whitelist.includes(x));
+      restantes = coincidences.filter(x => !whitelist.includes(x));
       if (restantes.length!=0){
         const PB = await profile.profile(restantes[0]);
-        whitelist.push(coincidences[0]);
-        
+        console.log(`Añadiendo a whitelist ${restantes[0]}`)
+        whitelist.push(restantes[0]);
         console.log("Process B finished");
         const PC = await load.load(Files);
         console.log("Process C finished");
@@ -149,7 +150,9 @@ function search() {
         //console.log("Re-scaning")
         
       }else{
-        console.log("Ninguna restante")
+        console.log("Ninguna restante---------------------------------------------------------------------------------\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n")
+        console.log(restantes.length)
+        const PD = await reescan.reescan();
       }
      
     //}else{ 
@@ -168,11 +171,11 @@ function search() {
 
    }
  }
-//main();
+main();
  function espera() {
   return new Promise(resolveespera => {
     setTimeout(() => {    
       resolveespera(1);
-  }, 10000);
+  }, 5000);
   });
 }

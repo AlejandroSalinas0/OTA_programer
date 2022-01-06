@@ -1,6 +1,6 @@
 const fs = require('fs');
 const axios = require('axios')
-const archivo='C:/Users/SF/Downloads/5.2.5.elf';
+const archivo='C:/Users/SF/Documents/Firmware/Smart lamp 2.1 Version 5.2.15.15.elf';
 var stats='';
 var trys=0;
 var saved="";
@@ -93,7 +93,9 @@ exports.load = async function(Files){
                 console.log("===========================================================")
                 chunk =saved.slice(pos, (pos + 1024));
                 await axios
-                .post("http://10.10.10.1/Lasec_Server/upgrade_chunk.html" + "?" + "offset=" + pos + "&" + "filesize=" + stats.size, chunk)
+                .post("http://10.10.10.1/Lasec_Server/upgrade_chunk.html" + "?" + "offset=" + pos + "&" + "filesize=" + stats.size, chunk, {
+                    timeout: 1000
+                  })
                 .then(res => {
                     console.log(`statusCode: ${res.data}`)
                     pos=res.data;
@@ -115,12 +117,12 @@ exports.load = async function(Files){
                     console.log(pos);
                     console.log(stats.size);
                     //resolveaux(1);
-                    if (trys >= 2) {
+                    if (trys >= 15) {
                         //resolveaux(1);
                         exit=1;
                         console.log("resolving aux")
                     }
-                    else if (trys <2 ){
+                    else if (trys < 15){
                         console.log('trying again')
                     }
                 })

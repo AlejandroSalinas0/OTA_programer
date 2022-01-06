@@ -26,7 +26,7 @@ exports.reescan = async function(){
             return new Promise(resolved => {
                 setTimeout(() => {    
                     resolved(1);
-                }, 1000);
+                }, 10000);
             });
         }    
         

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
             <WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1">
-                <name>LASEC SF:1F:FC</name>
+                <name>LASEC SF:3765</name>
                 <SSIDConfig>
                     <SSID>
-                        <hex>4C61736563</hex>
-                        <name>LASEC SF:1F:FC</name>
+                        <hex>4C415345432053463A33373635</hex>
+                        <name>LASEC SF:3765</name>
                     </SSID>
                 </SSIDConfig>
                 <connectionType>ESS</connectionType>
