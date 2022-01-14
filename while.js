@@ -97,7 +97,7 @@ function search() {
                   if(SSID.length<1){
                       console.log("Hidden SSID")
                   }else{
-                      if(n = SSID.includes("LASEC SF:")){
+                      if(n = SSID.includes("LASEC VEHICLE SF:")){
                       console.log("Identified target: "+SSID)
                       coincidences.push(SSID);
                       }else{
